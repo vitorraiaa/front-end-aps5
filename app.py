@@ -354,7 +354,13 @@ def post_loan():
                     retorno = requests.post(url, json={"usuario_id": usuario_id, "bicicleta_id": bicicleta_id, "data": data})
 
                     if retorno.status_code == 201 or retorno.status_code == 200:
-                        st.success('Empréstimo cadastrado com sucesso!')
+
+                        url_bike = ("String de conexão put bike")
+                        retorno_bike = requests.put(url_bike, json={"status": "alugada"})
+
+                        if retorno_bike.status_code == 200 or retorno_bike.status_code == 204:
+                            st.success('Empréstimo cadastrado com sucesso!')
+
 
                     else:
                         st.error("Empréstimo não cadastrado!")
