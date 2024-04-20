@@ -2,6 +2,8 @@ import streamlit as st
 import requests
 import json
 
+url = 'https://git.heroku.com/aps5.git'
+
 
 def home_page():
     st.title("Sistema de gerenciamento de bicicletas")
