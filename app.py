@@ -14,13 +14,13 @@ def home_page():
 def get_users():
     st.title('Usuários')
 
-    r = requests.get('String de conexão get users')
+    r = requests.get('https://aps-50-5caacc3db429.herokuapp.com/usuarios')
     status_code = r.status_code
 
 
     if status_code == 200:
         resposta_json = r.json()
-        usuarios = resposta_json
+        usuarios = resposta_json["usuarios"]
         st.table(usuarios)
 
 
@@ -46,7 +46,7 @@ def post_user():
             st.error('Preencha todos os campos!')
 
         elif nome != '' and cpf != '' and data_nascimento != '' :
-            url = ("String de conexão post user")
+            url = ("https://aps-50-5caacc3db429.herokuapp.com/usuarios")
             try:
                 retorno = requests.post(url, json={"nome": nome, "CPF": cpf, "data": data_nascimento})
 
@@ -80,9 +80,9 @@ def data_user():
     if st.button('Buscar'):
         if usuario_id:
             try:
-                r = requests.get(f'string de conexão get one user')
+                r = requests.get(f'https://aps-50-5caacc3db429.herokuapp.com/usuarios/{usuario_id}')
                 if r.status_code == 200:
-                    st.session_state['usuario'] = r.json()
+                    st.session_state['usuario'] = r.json()["usuarios"]
 
                 else:
                     st.error('Usuário não encontrado.')
@@ -96,13 +96,13 @@ def data_user():
        
             novo_nome = st.text_input('Nome', value=st.session_state['usuario'].get('nome', ''))
             novo_cpf = st.text_input('CPF', value=st.session_state['usuario'].get('CPF', ''))
-            nova_data = st.text_input('CPF', value=st.session_state['usuario'].get('data', ''))
+            nova_data = st.text_input('Data', value=st.session_state['usuario'].get('data', ''))
 
             atualizar_button = st.form_submit_button('Atualizar Usuário')
             
             if atualizar_button:
                 try:
-                    update_response = requests.put(f'String de conexão put user', json={
+                    update_response = requests.put(f'https://aps-50-5caacc3db429.herokuapp.com/usuarios/{usuario_id}', json={
                         "nome": novo_nome, 
                         "CPF": novo_cpf, 
                         "data": nova_data
@@ -126,7 +126,7 @@ def data_user():
         if st.button('Remover Usuário'):
             try:
                 
-                delete_response = requests.delete(f'String de conexão delete user')
+                delete_response = requests.delete(f'https://aps-50-5caacc3db429.herokuapp.com/usuarios/{usuario_id}')
 
                 if delete_response.status_code in [200, 204]:
                     st.success('Usuário removido com sucesso!')
@@ -149,12 +149,12 @@ def data_user():
 def get_bikes():
     st.title('Bicicletas')
 
-    r = requests.get('String de conexão get bikes')
+    r = requests.get('https://aps-50-5caacc3db429.herokuapp.com/bikes')
     status_code = r.status_code
 
     if status_code == 200:
         resposta_json = r.json()
-        bicicletas = resposta_json
+        bicicletas = resposta_json ["bikes"]
         st.table(bicicletas)
 
 
@@ -181,7 +181,7 @@ def post_bike():
             st.error('Preencha todos os campos!')
 
         elif marca != '' and modelo != '' and cidade != '' and status != '':
-            url = ("String de conexão post bike")
+            url = ("https://aps-50-5caacc3db429.herokuapp.com/bikes")
             try:
                 retorno = requests.post(url, json={"marca": marca, "modelo": modelo, "cidade": cidade, "status": status})
 
@@ -214,9 +214,9 @@ def data_bike():
     if st.button('Buscar'):
         if bicicleta_id:
             try:
-                r = requests.get(f'string de conexão get one bike')
+                r = requests.get(f'https://aps-50-5caacc3db429.herokuapp.com/bikes/{bicicleta_id}')
                 if r.status_code == 200:
-                    st.session_state['bicicleta'] = r.json()
+                    st.session_state['bicicleta'] = r.json()["bikes"]
 
                 else:
                     st.error('Bicicleta não encontrada.')
@@ -237,7 +237,7 @@ def data_bike():
             
             if atualizar_button:
                 try:
-                    update_response = requests.put(f'String de conexão put bike', json={
+                    update_response = requests.put(f'https://aps-50-5caacc3db429.herokuapp.com/bikes/{bicicleta_id}', json={
                         "marca": nova_marca, 
                         "modelo": novo_modelo, 
                         "cidade": nova_cidade,
@@ -263,7 +263,7 @@ def data_bike():
         if st.button('Remover Bicicleta'):
             try:
                 
-                delete_response = requests.delete(f'String de conexão delete bike')
+                delete_response = requests.delete(f'https://aps-50-5caacc3db429.herokuapp.com/bikes/{bicicleta_id}')
 
                 if delete_response.status_code in [200, 204]:
                     st.success('Bicicleta removida com sucesso!')
@@ -283,12 +283,12 @@ def data_bike():
 def get_loans():
     st.title('Empréstimos')
 
-    r = requests.get('String de conexão get loans')
+    r = requests.get('https://aps-50-5caacc3db429.herokuapp.com/emprestimos')
     status_code = r.status_code
 
     if status_code == 200:
         resposta_json = r.json()
-        emprestimos = resposta_json
+        emprestimos = resposta_json ["emprestimos"]
         st.table(emprestimos)
 
 
@@ -307,11 +307,11 @@ def delete_loan():
             st.error('Preencha o campo!')
 
         elif emprestimo_id != '':
-            url = ("String de conexão delete loan")
+            url = (f"https://aps-50-5caacc3db429.herokuapp.com/emprestimos/{emprestimo_id}")
             try:
                 retorno = requests.delete(url, json={"emprestimo_id": emprestimo_id})
 
-                if retorno.status_code == 204:
+                if retorno.status_code == 200 or 204:
                     st.success('Empréstimo removido com sucesso!')
 
                 else:
@@ -341,28 +341,21 @@ def post_loan():
             st.error('Preencha todos os campos!')
 
         elif usuario_id != '' and bicicleta_id != '' and data != '':
-            url = ("String de conexão post loan")
+            url = (f"https://aps-50-5caacc3db429.herokuapp.com/emprestimos/usuarios/{usuario_id}/bicicletas/{bicicleta_id}")
             try:
-                bike = requests.get(f'String de conexão get one bike')
-                status_bike = bike.json().get('status')
+                retorno = requests.post(url, json={"id_usuario": usuario_id, "id_bike": bicicleta_id, "data": data})
 
-                if status_bike == 'disponivel':
-                    retorno = requests.post(url, json={"usuario_id": usuario_id, "bicicleta_id": bicicleta_id, "data": data})
-
-                    if retorno.status_code == 201 or retorno.status_code == 200:
-
-                        url_bike = ("String de conexão put bike")
-                        retorno_bike = requests.put(url_bike, json={"status": "em uso"})
-
-                        if retorno_bike.status_code == 200 or retorno_bike.status_code == 204:
-                            st.success('Empréstimo cadastrado com sucesso!')
+                st.write(retorno.status_code)
 
 
-                    else:
-                        st.error("Empréstimo não cadastrado!")
+                if retorno.status_code == 201 or retorno.status_code == 200:
+                    st.success('Empréstimo cadastrado com sucesso!')
 
-                else:
-                    st.error("Bicicleta não disponível para empréstimo!")
+                elif retorno.status_code == 404:
+                    st.error("Usuário ou bicicleta não encontrados!")
+
+                elif retorno.status_code == 400:
+                    st.error("Bicicleta já estão em uso!")
 
 
             except Exception as e:
