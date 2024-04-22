@@ -6,7 +6,7 @@ import json
 def home_page():
     st.title("Sistema de gerenciamento de bicicletas")
 
-    st.write("Este é um sistema que gerencia o empréstimo de bicicletas. Nele é possível manipular dados relacionados aos usuários. bicicletas e aos empréstimos em si.")
+    st.write("Este é um sistema que gerencia o empréstimo de bicicletas. Nele é possível manipular dados relacionados aos usuários, bicicletas e aos empréstimos em si.")
 
 
 
@@ -22,9 +22,6 @@ def get_users():
         resposta_json = r.json()
         usuarios = resposta_json
         st.table(usuarios)
-
-
-
 
 
 
