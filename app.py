@@ -345,7 +345,6 @@ def post_loan():
             try:
                 retorno = requests.post(url, json={"id_usuario": usuario_id, "id_bike": bicicleta_id, "data": data})
 
-                st.write(retorno.status_code)
 
 
                 if retorno.status_code == 201 or retorno.status_code == 200:
