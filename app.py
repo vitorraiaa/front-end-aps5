@@ -343,7 +343,7 @@ def post_loan():
             st.error('Preencha todos os campos!')
 
         elif usuario_id != '' and bicicleta_id != '' and data != '':
-            url = (f"https://aps-50-5caacc3db429.herokuapp.com/emprestimos/usuarios/{usuario_id}/bicicletas/{bicicleta_id}")
+            url = (f"https://aps-50-5caacc3db429.herokuapp.com/emprestimos/usuarios/{usuario_id}/bikes/{bicicleta_id}")
             try:
                 retorno = requests.post(url, json={"id_usuario": usuario_id, "id_bike": bicicleta_id, "data": data})
 
