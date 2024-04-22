@@ -31,7 +31,6 @@ def get_users():
 
 
 
-
 def post_user():
     st.title('Cadastrar usuário')
 
@@ -173,7 +172,7 @@ def post_bike():
     marca = st.text_input('Marca')
     modelo = st.text_input('Modelo')
     cidade = st.text_input('Cidade')
-    status = st.selectbox('Status', ['disponivel', 'alugada'])
+    status = st.selectbox('Status', ['disponivel', 'em uso'])
 
 
     if st.button('Cadastrar'):
@@ -232,7 +231,7 @@ def data_bike():
             nova_marca = st.text_input('Marca', value=st.session_state['bicicleta'].get('marca', ''))
             novo_modelo = st.text_input('Modelo', value=st.session_state['bicicleta'].get('modelo', ''))
             nova_cidade = st.text_input('Cidade', value=st.session_state['bicicleta'].get('cidade', ''))
-            novo_status = st.selectbox('Status', ['disponivel', 'alugada'], index=0 if st.session_state['bicicleta'].get('status') == 'disponivel' else 1)
+            novo_status = st.selectbox('Status', ['disponivel', 'em uso'], index=0 if st.session_state['bicicleta'].get('status') == 'disponivel' else 1)
 
             atualizar_button = st.form_submit_button('Atualizar Bicicleta')
             
@@ -353,7 +352,7 @@ def post_loan():
                     if retorno.status_code == 201 or retorno.status_code == 200:
 
                         url_bike = ("String de conexão put bike")
-                        retorno_bike = requests.put(url_bike, json={"status": "alugada"})
+                        retorno_bike = requests.put(url_bike, json={"status": "em uso"})
 
                         if retorno_bike.status_code == 200 or retorno_bike.status_code == 204:
                             st.success('Empréstimo cadastrado com sucesso!')
